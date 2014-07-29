@@ -24,6 +24,12 @@
                     :a :e :b :f-sharp :c-sharp :g-sharp :d-sharp :a-sharp]) 
           (range -7 8)))
 
+(defn key-signature [pitch major-or-minor]
+  (let [n ((circle-of-fifths major-or-minor) pitch)]
+    (conj {}
+          (when (pos? n) {:sharps (set (take n "FCGDAEB"))})
+          (when (neg? n) {:flats  (set (take (Math/abs n) "BEADGCF"))}))))
+
 (defn sanitize [pitch major-or-minor]
   "For the sake of simplicity, Riffmuse does not support the use of more than
    one accidental; e.g., double sharps and double flats. For this reason, 
@@ -37,12 +43,6 @@
                  :g-flat :f-sharp, :a-flat :g-sharp, :b-sharp :c})
        pitch
        pitch))
-
-(defn key-signature [pitch major-or-minor]
-  (let [n ((circle-of-fifths major-or-minor) pitch)]
-    (conj {}
-          (when (pos? n) {:sharps (set (take n "FCGDAEB"))})
-          (when (neg? n) {:flats  (set (take (Math/abs n) "BEADGCF"))}))))
 
 (defn- diatonic-scale [pitch major-or-minor]
   (let [pitch          (sanitize pitch major-or-minor)
