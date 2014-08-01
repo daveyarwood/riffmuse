@@ -77,5 +77,21 @@
 (defmethod notes :minor-pentatonic [{:keys [pitch]}]
   (set (pentatonic-scale pitch :minor)))
 
-; to do:
-; blues scale = minor pentatonic with a passing tone b/t 4 and 5
+(defn- augment [pitch]
+  "Takes a pitch in string form, e.g. 'A#', and returns the string form of the
+   pitch one half-step higher, e.g. 'B.'"
+  (let [letter->number (zipmap "ABCDEFG" (range 8))
+        number->letter (zipmap (range 8) "ABCDEFG")
+        base-number    (-> pitch first letter->number)
+        next-letter    (number->letter (rem (inc base-number) 7))]
+    (case (last pitch)
+      \b (str (first pitch))
+      \# (str next-letter)
+      (str pitch \#))))
+
+(defmethod notes :blues [{:keys [pitch]}]
+  (let [minor-pentatonic (pentatonic-scale pitch :minor)
+        extra-note       (augment (nth minor-pentatonic 2))]
+    (set (concat (take 3 minor-pentatonic) 
+                 [extra-note]
+                 (drop 3 minor-pentatonic)))))
