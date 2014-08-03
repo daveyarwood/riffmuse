@@ -1,9 +1,8 @@
 (ns riffmuse.core
-  (:require [clojure.string :as str]
+  (:require [clojure.string :as s]
             [riffmuse.parser :refer (parse-scale)]
             [riffmuse.scales :refer (notes)]
-            [riffmuse.riff :refer (generate-riff)]
-            [riffmuse.ascii :as ascii])
+            [riffmuse.riff :as riff])
   (:gen-class :main true))
 
 (def ^:private help
@@ -13,10 +12,11 @@ It takes only one command-line argument, representing the scale you'd like your 
 
 Examples:
 
-    riffmuse a      (A major)
+    riffmuse a      (A minor)
+    riffmuse A      (A major)
     riffmuse Db     (D-flat major)
     riffmuse Df     (D-flat major -- same as Db)
-    riffmuse cs min (C-sharp minor)
+    riffmuse cs     (C-sharp minor)
     riffmuse o      (octatonic 1)
     riffmuse o2     (octatonic 2)
     riffmuse B pent (B major pentatonic)
@@ -41,12 +41,7 @@ Running 'riffmuse help' or 'riffmuse h' will bring up this help text.")
    If no arguments are given, displays the help text."
   ([] (-main "help"))
   ([& args]
-    (let [args-string (str/join args)]
-      (if (re-find #"(?i)help|^[Hh]" args-string)
+    (let [args-string (s/join args)]
+      (if (re-find #"(?i)help|^h" args-string)
         (println help)
-        (try 
-          (let [riff (generate-riff (notes (parse-scale args-string)))]
-            (printf "Notes:\n\n%s\n\n%s\n" 
-                    (ascii/notes riff) (ascii/guitar riff)))
-          (catch IllegalArgumentException e
-            (printf "Invalid scale specified.\n\n%s\n" help)))))))
+        (notes (parse-scale args-string))))))

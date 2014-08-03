@@ -1,5 +1,5 @@
 (ns riffmuse.parser
-  (:require [clojure.string :as str]
+  (:require [clojure.string :as s]
             [instaparse.core :as insta]))
 
 (defn parse-scale [input]
@@ -45,7 +45,7 @@
                          ([_ num] (case num
                                     "1" :octatonic-1
                                     "2" :octatonic-2)))
-          :letter str/lower-case
+          :letter s/lower-case
           :pitch (fn 
                    ([letter]
                      {:pitch (keyword letter)})
@@ -68,3 +68,4 @@
                                                 #{:major :pentatonic}
                                                 :major-pentatonic))})
                                        {:scale (first attrs)})))})))
+
