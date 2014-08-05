@@ -46,7 +46,7 @@ Running 'riffmuse help' or 'riffmuse h' will bring up this help text.")
         (println help)
         (try 
           (let [riff (generate-riff (notes (parse-scale args-string)))]
-            (printf "Notes:\n\n%s\n\n%s\n" 
+            (printf "Notes:\n\n%s\n\nGuitar:\n\n%s\n" 
                     (ascii/notes riff) (ascii/guitar riff)))
           (catch IllegalArgumentException e
             (printf "Invalid scale specified.\n\n%s\n" help)))))))

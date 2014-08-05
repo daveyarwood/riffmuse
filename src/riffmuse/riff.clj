@@ -1,9 +1,5 @@
 (ns riffmuse.riff)
 
-(defn- generate-melody [notes]
-  "Generates a sequence of 16 notes selected randomly from a set of notes."
-  (repeatedly 16 #(rand-nth (seq notes))))
-
 (defn- generate-rhythm []
   "Generates a sequence of 16 :on's and :off's, representing whether or not
    a note is present on that 1/16th beat of a measure. The probability of a
