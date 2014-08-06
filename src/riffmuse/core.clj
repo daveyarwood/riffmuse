@@ -7,8 +7,8 @@
   (:gen-class :main true))
 
 
-(def ^:private help
-"riffmuse is a command-line tool that algorithmically generates notes within a given scale, hopefully inspiring you to create a riff using those notes.
+(def ^:private help "
+riffmuse is a command-line tool that algorithmically generates notes within a given scale, hopefully inspiring you to create a riff using those notes.
 
 Simply pass the scale you'd like your riff in as command-line arguments. Input is not case-sensitive, and can be abbreviated in a variety of ways.
 
@@ -37,7 +37,8 @@ Or, if you'd prefer, you can type out the full name of the scale, for instance,
     riffmuse random
     etc.
     
-Running 'riffmuse help' or 'riffmuse h' will display this help text.")
+Running 'riffmuse help' or 'riffmuse h' will display this help text.
+")
 
 
 (def ^:private scale-choices
