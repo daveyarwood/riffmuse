@@ -1,6 +1,31 @@
 (ns riffmuse.scales
   (:require [clojure.string :as str]))
 
+(defn sanitize [pitch scale]
+  "For the sake of simplicity, Riffmuse does not support the use of more than
+   one accidental; e.g., double sharps and double flats. For this reason, 
+   scales like E# major (E# Fx Gx A# B# Cx Dx) are not supported. This function
+   is used to ensure that such scales will be spelled enharmonically, e.g.
+   E# major -> F major (F G A Bb C D E)."
+  (get (condp contains? scale
+         #{:major :major-pentatonic} 
+         {:d-sharp :e-flat, :e-sharp :f, :f-flat :e, 
+          :g-sharp :a-flat, :a-sharp :b-flat, :b-sharp :c}
+          
+         #{:minor :minor-pentatonic :blues} 
+         {:d-flat :c-sharp, :e-sharp :f, :f-flat :e,
+          :g-flat :f-sharp, :a-flat :g-sharp, :b-sharp :c})
+       pitch
+       pitch))
+
+(defn scale-name [{:keys [pitch scale]}]
+  "Converts a scale (a map) to a human-readable string version of its name."
+  (let [pitch (when pitch 
+                (str/replace (name (sanitize pitch scale)) #"-flat|-sharp" 
+                             {"-flat" "b" "-sharp" "#"}))
+        scale (str/replace (name scale) #"-" " ")]
+    (-> (str pitch \space scale) str/trim str/capitalize)))
+
 (defmulti notes
   "Takes the scale (a map) output by parse-cli-args and returns a set of 
    notes representing the appropriate scale."
@@ -8,7 +33,7 @@
 
 (defmethod notes :chromatic [_]
   (set (mapcat #(map str (repeat (str/upper-case %)) [\b nil \#])
-                            [\A \B \C \D \E \F \G])))
+               [\A \B \C \D \E \F \G])))
 
 (defmethod notes :octatonic-1 [_]
   #{"E" "F" "G" "Ab" "Bb" "B" "C#" "D"})
@@ -29,20 +54,6 @@
     (conj {}
           (when (pos? n) {:sharps (set (take n "FCGDAEB"))})
           (when (neg? n) {:flats  (set (take (Math/abs n) "BEADGCF"))}))))
-
-(defn sanitize [pitch major-or-minor]
-  "For the sake of simplicity, Riffmuse does not support the use of more than
-   one accidental; e.g., double sharps and double flats. For this reason, 
-   scales like E# major (E# Fx Gx A# B# Cx Dx) are not supported. This function
-   is used to ensure that such scales will be spelled enharmonically, e.g.
-   E# major -> F major (F G A Bb C D E)."
-  (get (case major-or-minor
-         :major {:d-sharp :e-flat, :e-sharp :f, :f-flat :e, 
-                 :g-sharp :a-flat, :a-sharp :b-flat, :b-sharp :c} 
-         :minor {:d-flat :c-sharp, :e-sharp :f, :f-flat :e,
-                 :g-flat :f-sharp, :a-flat :g-sharp, :b-sharp :c})
-       pitch
-       pitch))
 
 (defn- diatonic-scale [pitch major-or-minor]
   (let [pitch          (sanitize pitch major-or-minor)

@@ -46,5 +46,6 @@
                      (apply str (map #(tab-note % string) notes)))
         a-string   (str "A|" (tab-string positions :a))
         e-string   (str "E|" (tab-string positions :e))
-        beat-line  "to do..."]
-    ,,,))
+        beat-line  (apply str (map #(if (zero? (rem % 16)) (/ % 16) \space)
+                                   (map (partial + 12) (range 53))))]
+    (str/join \newline [beat-line a-string e-string])))
