@@ -4,7 +4,9 @@ Riffmuse is a simple CLI tool designed to inspire sweet riffs by algorithmically
 
 ## Usage
 
-*(TODO: Write a little shell script to run the program as a shortcut to java -jar ...)*
+*(TODO: Write a little shell script to run the program as a shortcut to java -jar ...
+
+For now, you can use it by cloning the source and running, e.g., "lein run d major")*
 
 Simply pass the scale you'd like your riff in as command-line arguments. Input is not case-sensitive, and can be abbreviated in a variety of ways.
 
