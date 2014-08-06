@@ -10,7 +10,7 @@
 (def ^:private help
 "riffmuse is a command-line tool that algorithmically generates notes within a given scale, hopefully inspiring you to create a riff using those notes.
 
-It takes only one command-line argument, representing the scale you'd like your riff in.
+Simply pass the scale you'd like your riff in as command-line arguments. Input is not case-sensitive, and can be abbreviated in a variety of ways.
 
 Examples:
 
