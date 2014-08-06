@@ -1,4 +1,4 @@
-(defproject riffmuse "0.1.0"
+(defproject riffmuse "1.0.0"
   :description "A simple CLI tool to inspire sweet riffs"
   :url "http://www.github.com/daveyarwood/riffmuse"
   :license {:name "Eclipse Public License"
