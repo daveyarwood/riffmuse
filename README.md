@@ -46,16 +46,16 @@ Riffmuse is intended to be installed as an executable file in the user's `$PATH`
 
 1. Clone the source.
 
-    git clone git@github.com:daveyarwood/riffmuse.git
+        git clone git@github.com:daveyarwood/riffmuse.git
 
 2. Create the executable using lein-bin.
 
     cd riffmuse
-    lein bin
+        lein bin
 
 3. This creates an executable file in the `target` directory called something like `riffmuse-1.0.0`. Move this file to `/usr/bin` or any other directory on your `$PATH`, and rename it to simply `riffmuse`.
 
-    sudo mv target/riffmuse-1.0.0 /usr/bin/riffmuse
+        sudo mv target/riffmuse-1.0.0 /usr/bin/riffmuse
 
 You should now be able to run `riffmuse` from the command line.
 
