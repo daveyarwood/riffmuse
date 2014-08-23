@@ -24,7 +24,7 @@ Examples:
     riffmuse em p   (E minor pentatonic)
     riffmuse x      (chromatic)
     riffmuse r      (scale chosen at random)
-    
+
 Or, if you'd prefer, you can type out the full name of the scale, for instance,
 
     riffmuse Bb minor
@@ -36,7 +36,7 @@ Or, if you'd prefer, you can type out the full name of the scale, for instance,
     riffmuse g major pentatonic
     riffmuse random
     etc.
-    
+
 Running 'riffmuse help' or 'riffmuse h' will display this help text.
 ")
 
@@ -60,15 +60,15 @@ Running 'riffmuse help' or 'riffmuse h' will display this help text.
    If no arguments are given, displays the help text."
   ([] (-main "help"))
   ([& args]
-    (let [args-string (str/join args)]
+    (let [args-string (str/join \space args)]
       (cond
         (re-find #"(?i)help|^h" args-string)       (println help)
         (re-find #"(?i)rand(om)?|^r$" args-string) (-main (rand-nth scale-choices))
-        :else (try 
+        :else (try
                 (let [scale (parse-scale args-string)
                       riff  (generate-riff (notes scale))]
-                  (printf "\nScale:\n\n%s\n\n" (indent (scale-name scale)))
-                  (printf "Notes:\n\n%s\n\n" (indent (ascii/notes riff)))
-                  (printf "Guitar:\n\n%s\n\n" (indent (ascii/guitar riff))))
+                  (println (format "\nScale:\n\n%s\n" (indent (scale-name scale))))
+                  (println (format "Notes:\n\n%s\n"   (indent (ascii/notes riff))))
+                  (println (format "Guitar:\n\n%s\n"  (indent (ascii/guitar riff)))))
                 (catch IllegalArgumentException e
-                  (printf "\nInvalid scale specified.\n\n%s\n\n" help)))))))
+                  (println (format "\nInvalid scale specified.\n\n%s\n\n" help))))))))
