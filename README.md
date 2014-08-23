@@ -50,7 +50,7 @@ Riffmuse is intended to be installed as an executable file in the user's `$PATH`
 
 2. Create the executable using lein-bin.
 
-    cd riffmuse
+        cd riffmuse
         lein bin
 
 3. This creates an executable file in the `target` directory called something like `riffmuse-1.0.0`. Move this file to `/usr/bin` or any other directory on your `$PATH`, and rename it to simply `riffmuse`.
