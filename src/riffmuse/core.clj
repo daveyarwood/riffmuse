@@ -1,11 +1,18 @@
 (ns riffmuse.core
-  (:require [clojure.string :as str]
+  (:require [trptcolin.versioneer.core :refer (get-version)]
+            [clojure.string :as str]
             [riffmuse.parser :refer (parse-scale)]
             [riffmuse.scales :refer (scale-name notes)]
             [riffmuse.riff :refer (generate-riff)]
             [riffmuse.ascii :as ascii])
   (:gen-class :main true))
 
+(def ^:private current-version (get-version "riffmuse" "riffmuse"))
+
+(def ^:private header
+  (let [ver-string  (str "Riffmuse v" current-version)
+        dashes      (apply str (repeat (count ver-string) \-))]
+    (str \newline ver-string \newline dashes \newline)))
 
 (def ^:private help "
 riffmuse is a command-line tool that algorithmically generates notes within a given scale, hopefully inspiring you to create a riff using those notes.
@@ -62,13 +69,14 @@ Running 'riffmuse help' or 'riffmuse h' will display this help text.
   ([& args]
     (let [args-string (str/join \space args)]
       (cond
-        (re-find #"(?i)help|^h" args-string)       (println help)
+        (re-find #"(?i)help|^h" args-string)       (println (str header help))
         (re-find #"(?i)rand(om)?|^r$" args-string) (-main (rand-nth scale-choices))
         :else (try
                 (let [scale (parse-scale args-string)
                       riff  (generate-riff (notes scale))]
-                  (println (format "\nScale:\n\n%s\n" (indent (scale-name scale))))
-                  (println (format "Notes:\n\n%s\n"   (indent (ascii/notes riff))))
-                  (println (format "Guitar:\n\n%s\n"  (indent (ascii/guitar riff)))))
+                  (println header)
+                  (println (format "Scale:\n\n%s\n"  (indent (scale-name scale))))
+                  (println (format "Notes:\n\n%s\n"  (indent (ascii/notes riff))))
+                  (println (format "Guitar:\n\n%s\n" (indent (ascii/guitar riff)))))
                 (catch IllegalArgumentException e
-                  (println (format "\nInvalid scale specified.\n\n%s\n\n" help))))))))
+                  (println (format "\nInvalid scale specified.\n\n%s\n" help))))))))
