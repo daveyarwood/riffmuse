@@ -5,5 +5,5 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [instaparse "1.3.2"]]
-  :main riffmuse.core
-  :aot [riffmuse.core])
+  :aot [riffmuse.core]
+  :main riffmuse.core)
