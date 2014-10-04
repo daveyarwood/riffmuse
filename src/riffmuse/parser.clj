@@ -51,20 +51,20 @@
                      {:pitch (keyword letter)})
                    ([letter accidental]
                      {:pitch (keyword (str letter accidental))})) 
-                      :scale (fn [[type & attrs]]
-                               (conj {:type type}
-                                     (if-let [pitch (:pitch (first attrs))]
-                                       (let [attrs (rest attrs)]
-                                         {:pitch pitch
-                                          :scale 
-                                          (case (count attrs)
-                                            0 :major
-                                            1 (if (= (first attrs) :pentatonic)
-                                                :major-pentatonic
-                                                (first attrs))
-                                            2 (case (set attrs)
-                                                #{:minor :pentatonic}
-                                                :minor-pentatonic
-                                                #{:major :pentatonic}
-                                                :major-pentatonic))})
-                                       {:scale (first attrs)})))})))
+          :scale (fn [[type & attrs]]
+                   (conj {:type type}
+                         (if-let [pitch (:pitch (first attrs))]
+                           (let [attrs (rest attrs)]
+                             {:pitch pitch
+                              :scale 
+                              (case (count attrs)
+                                0 :major
+                                1 (if (= (first attrs) :pentatonic)
+                                    :major-pentatonic
+                                    (first attrs))
+                                2 (case (set attrs)
+                                    #{:minor :pentatonic}
+                                    :minor-pentatonic
+                                    #{:major :pentatonic}
+                                    :major-pentatonic))})
+                           {:scale (first attrs)})))})))
