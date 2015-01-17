@@ -1,3 +1,5 @@
+#!/usr/bin/env boot
+
 (set-env!
  :source-paths #{"src" "test"}
  :dependencies '[[org.clojure/clojure "1.6.0"]
@@ -48,3 +50,6 @@
                fileset)
              (repl :server true :port 4005))))
     (wait)))
+
+(defn -main [& args]
+  (println "to do"))
