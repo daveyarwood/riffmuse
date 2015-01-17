@@ -70,6 +70,7 @@ Running 'riffmuse help' or 'riffmuse h' will display this help text.
       (cond
         (re-find #"(?i)help|^h" args-string)       (println (str header help))
         (re-find #"(?i)rand(om)?|^r$" args-string) (-main (rand-nth scale-choices))
+        (re-find #"(?i)version|^v" args-string)    (println header)
         :else (try
                 (let [scale (parse-scale args-string)
                       riff  (generate-riff (notes scale))]
