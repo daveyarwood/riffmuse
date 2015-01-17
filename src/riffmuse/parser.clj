@@ -11,10 +11,10 @@
          scale      = root | no-root
 
          root       = pitch <ows> r-scale?
-         <r-scale>  = (major | minor) 
+         <r-scale>  = (major | minor)
                     | pentatonic
                     | (major | minor) <ows> pentatonic
-                    | pentatonic <ows> (major | minor) 
+                    | pentatonic <ows> (major | minor)
                     | blues
 
          major      = #'(?i)maj(or)?'
@@ -23,7 +23,7 @@
          blues      = #'(?i)blues'
          pitch      = letter <ows> (sharp | flat | <natural>)?
          letter     = #'[A-Ga-g]'
-         sharp      = #'(?i)s(harp)?'
+         sharp      = #'(?i)s(harp)?|#'
          flat       = #'(?i)f(lat)?' | #'[Bb]'
          <natural>  = #'(?i)n(at(ural)?)?'
 
@@ -33,7 +33,7 @@
 
          <ows>     = #'[\\s-_]*'
          "))
-       (insta/transform 
+       (insta/transform
          {:flat (constantly "-flat")
           :sharp (constantly "-sharp")
           :major (constantly :major)
@@ -49,12 +49,12 @@
           :pitch (fn ([letter]
                        {:pitch (keyword letter)})
                      ([letter accidental]
-                       {:pitch (keyword (str letter accidental))})) 
+                       {:pitch (keyword (str letter accidental))}))
           :scale (fn [[type & attrs]]
                    (conj {:type type}
                          (if-let [pitch (:pitch (first attrs))]
                            (let [attrs (rest attrs)]
-                             {:pitch pitch 
+                             {:pitch pitch
                               :scale (case (count attrs)
                                        0 :major
                                        1 (if (= (first attrs) :pentatonic)
