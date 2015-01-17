@@ -47,7 +47,6 @@ Or, if you'd prefer, you can type out the full name of the scale, for instance,
 Running 'riffmuse help' or 'riffmuse h' will display this help text.
 ")
 
-
 (def ^:private scale-choices
   (let [letters (map str "abcdefg")
         notes   (concat letters
@@ -79,4 +78,5 @@ Running 'riffmuse help' or 'riffmuse h' will display this help text.
                   (println (format "Notes:\n\n%s\n"  (indent (ascii/notes riff))))
                   (println (format "Guitar:\n\n%s\n" (indent (ascii/guitar riff)))))
                 (catch IllegalArgumentException e
-                  (println (format "\nInvalid scale specified.\n\n%s\n" help))))))))
+                  (println (format "\n***Invalid scale specified.***\n%s" help))))))))
+
