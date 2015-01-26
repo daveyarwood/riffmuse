@@ -1,5 +1,5 @@
 (ns riffmuse.web
-	(:require [compojure.core :refer :all]
+  (:require [compojure.core :refer :all]
             [compojure.handler :as handler]
             [compojure.route :as route]
             [riffmuse.core :as riffmuse]))
