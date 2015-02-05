@@ -5,6 +5,7 @@
  :dependencies '[[org.clojure/clojure "1.6.0"]
                  [adzerk/bootlaces "0.1.9" :scope "test"]
                  [adzerk/boot-test "1.0.3" :scope "test"]
+                 [pandeiro/boot-http "0.6.2"]
                  [instaparse "1.3.5"]
                  [trptcolin/versioneer "0.1.1"]
   							 [compojure               "1.3.1"]
@@ -14,7 +15,7 @@
 
 (require '[adzerk.bootlaces :refer :all]
          '[adzerk.boot-test :refer :all]
-         '[riffmuse.core])
+         '[pandeiro.boot-http :refer :all])
 
 (def +version+ "1.0.0")
 (bootlaces! +version+)
@@ -31,21 +32,12 @@
   jar {:main 'riffmuse.core}
   test {:namespaces '#{}})
 
-(deftask serve
+(deftask dev
   "Serve the web interface and dev REPL locally."
   []
-  (comp
-    (clojure.core/eval
-      '(do (require
-             '[riffmuse.web           :refer (app)]
-             '[ring.adapter.jetty     :refer (run-jetty)]
-             '[ring.middleware.reload :refer (wrap-reload)])
-           (comp
-             (with-pre-wrap fileset
-               (run-jetty (wrap-reload #'app) {:port 3000 :join? false})
-               fileset)
-             (repl :server true :port 4005))))
-    (wait)))
+  (comp (serve :handler 'riffmuse.web/app :reload true)
+        (repl :server true :port 4005)
+        (wait)))
 
 (deftask build
   "Builds uberjar.
