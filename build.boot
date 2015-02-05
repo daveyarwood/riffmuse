@@ -20,20 +20,16 @@
 (bootlaces! +version+)
 
 (task-options!
+  aot {:namespace '#{riffmuse.core}}
   pom {:project 'riffmuse
        :version +version+
        :description "A simple CLI tool to inspire sweet riffs"
        :url "https://github.com/daveyarwood/riffmuse"
        :scm {:url "https://github.com/daveyarwood/riffmuse"}
-       :license {:name "Eclipse Public License"
-                 :url "http://www.eclipse.org/legal/epl-v10.html"}}
+       :license {"name" "Eclipse Public License"
+                 "url" "http://www.eclipse.org/legal/epl-v10.html"}}
+  jar {:main 'riffmuse.core}
   test {:namespaces '#{}})
-
-(deftask run
-  "Run the riffmuse CLI client with args as a single string.
-   This is analogous to running 'riffmuse args' with the executable."
-  [a args ARGS str "The command-line arguments."]
-  (riffmuse.core/-main args))
 
 (deftask serve
   "Serve the web interface and dev REPL locally."
@@ -51,5 +47,12 @@
              (repl :server true :port 4005))))
     (wait)))
 
+(deftask build
+  "Builds uberjar.
+   TODO: be able to build an executable à la lein bin"
+  []
+  (comp (aot) (pom) (uber) (jar)))
+
 (defn -main [& args]
-  (println "to do"))
+  (require 'riffmuse.core)
+  (apply (resolve 'riffmuse.core/-main) args))

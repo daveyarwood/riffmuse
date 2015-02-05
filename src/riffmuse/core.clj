@@ -5,7 +5,7 @@
             [riffmuse.scales :refer (scale-name notes)]
             [riffmuse.riff :refer (generate-riff)]
             [riffmuse.ascii :as ascii])
-  (:gen-class :main true))
+  (:gen-class))
 
 (def ^:private current-version (get-version "riffmuse" "riffmuse"))
 
