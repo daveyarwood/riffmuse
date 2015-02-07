@@ -9,8 +9,7 @@
                  [instaparse "1.3.5"]
                  [trptcolin/versioneer "0.1.1"]
   							 [compojure               "1.3.1"]
-                 [ring/ring-devel         "1.3.2" :scope "test"]
-                 [ring/ring-jetty-adapter "1.3.2" :scope "test"]
+                 [ring/ring-core          "1.3.2" :scope "test"]
                  [clj-http                "1.0.1"]])
 
 (require '[adzerk.bootlaces :refer :all]

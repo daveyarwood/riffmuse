@@ -14,7 +14,7 @@
         dashes      (apply str (repeat (count ver-string) \-))]
     (str \newline ver-string \newline dashes \newline)))
 
-(def ^:private help "
+(def help "
 riffmuse is a command-line tool that algorithmically generates notes within a given scale, hopefully inspiring you to create a riff using those notes.
 
 Simply pass the scale you'd like your riff in as command-line arguments. Input is not case-sensitive, and can be abbreviated in a variety of ways.
@@ -47,7 +47,7 @@ Or, if you'd prefer, you can type out the full name of the scale, for instance,
 Running 'riffmuse help' or 'riffmuse h' will display this help text.
 ")
 
-(def ^:private scale-choices
+(def scale-choices
   (let [letters (map str "abcdefg")
         notes   (concat letters
                         (map #(str % "-flat") letters)
@@ -61,6 +61,20 @@ Running 'riffmuse help' or 'riffmuse h' will display this help text.
   "Indents each line of a string with a tab character."
   (->> s str/split-lines (map (partial str \tab)) (str/join \newline)))
 
+(defn riff-output
+  "Parses text argument, determines the scale and returns formatted output.
+   Throws an IllegalArgumentException if the input is not valid."
+  [scale-input]
+  (let [scale (parse-scale scale-input)
+        riff  (generate-riff (notes scale))]
+    (format "Scale:\n\n%s\n\nNotes:\n\n%s\n\nGuitar:\n\n%s\n"
+           (indent (scale-name scale))
+           (indent (ascii/notes riff))
+           (indent (ascii/guitar riff)))))
+
+(def invalid-scale
+  (format "\n***Invalid scale specified.***\n%s" help))
+
 (defn -main
   "Parses command-line args and dispatches the appropriate functions.
    If no arguments are given, displays the help text."
@@ -73,12 +87,8 @@ Running 'riffmuse help' or 'riffmuse h' will display this help text.
         (re-find #"(?i)version|^v" args-string)    (println (str "Riffmuse v"
                                                                  current-version))
         :else (try
-                (let [scale (parse-scale args-string)
-                      riff  (generate-riff (notes scale))]
+                (let [riff-output (riff-output args-string)]
                   (println header)
-                  (println (format "Scale:\n\n%s\n"  (indent (scale-name scale))))
-                  (println (format "Notes:\n\n%s\n"  (indent (ascii/notes riff))))
-                  (println (format "Guitar:\n\n%s\n" (indent (ascii/guitar riff)))))
+                  (println riff-output))
                 (catch IllegalArgumentException e
-                  (println (format "\n***Invalid scale specified.***\n%s" help))))))))
-
+                  (println invalid-scale)))))))
