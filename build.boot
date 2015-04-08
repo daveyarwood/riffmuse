@@ -2,18 +2,18 @@
 
 (set-env!
  :source-paths #{"src" "test"}
- :dependencies '[[org.clojure/clojure "1.6.0"]
-                 [adzerk/bootlaces "0.1.9" :scope "test"]
-                 [adzerk/boot-test "1.0.3" :scope "test"]
-                 [pandeiro/boot-http "0.6.2"]
-                 [instaparse "1.3.5"]
+ :dependencies '[[org.clojure/clojure  "1.6.0"]
+                 [adzerk/bootlaces     "0.1.11" :scope "test"]
+                 [adzerk/boot-test     "1.0.4" :scope "test"]
+                 [pandeiro/boot-http   "0.6.2"]
+                 [instaparse           "1.3.6"]
                  [trptcolin/versioneer "0.1.1"]
-  							 [compojure               "1.3.1"]
-                 [ring/ring-core          "1.3.2" :scope "test"]
-                 [clj-http                "1.0.1"]])
+                 [compojure            "1.3.3"]
+                 [ring/ring-core       "1.3.2" :scope "test"]
+                 [clj-http             "1.1.0"]])
 
-(require '[adzerk.bootlaces :refer :all]
-         '[adzerk.boot-test :refer :all]
+(require '[adzerk.bootlaces   :refer :all]
+         '[adzerk.boot-test   :refer :all]
          '[pandeiro.boot-http :refer :all])
 
 (def +version+ "1.0.0")
@@ -28,8 +28,7 @@
        :scm {:url "https://github.com/daveyarwood/riffmuse"}
        :license {"name" "Eclipse Public License"
                  "url" "http://www.eclipse.org/legal/epl-v10.html"}}
-  jar {:main 'riffmuse.core}
-  test {:namespaces '#{}})
+  jar {:main 'riffmuse.core})
 
 (deftask dev
   "Serve the web interface and dev REPL locally."

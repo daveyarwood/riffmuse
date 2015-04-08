@@ -39,23 +39,17 @@ Riffmuse is intended to be installed as an executable file in the user's `$PATH`
 
 ### Prerequisites
 
-* [Leiningen](http://www.leiningen.org)
-* [lein-bin](https://github.com/Raynes/lein-bin) to create the executable
+* [Boot](http://www.boot-clj.com)
 
-*Alternatively, you can clone the source, cd to the project directory and use `lein run [scale name]`.*
+The `build.boot` file in this directory is actually an executable Clojure script, so if you want, you can run it directly, e.g. `./build.boot f sharp blues`.
 
-1. Clone the source.
+You can also run Riffmuse from any directory by copying `build.boot` into your `/usr/local/bin` or any other directory on your `$PATH`, and renaming it `riffmuse`. The script makes use of the source files in this repo, so you'll also need to install the jar file to your local Maven repo. You can do all of that like this:
 
-        git clone git@github.com:daveyarwood/riffmuse.git
-
-2. Create the executable using lein-bin.
-
-        cd riffmuse
-        lein bin
-
-3. This creates an executable file in the `target` directory called something like `riffmuse-1.0.0`. Move this file to `/usr/bin` or any other directory on your `$PATH`, and rename it to simply `riffmuse`.
-
-        sudo mv target/riffmuse-1.0.0 /usr/bin/riffmuse
+    git clone git@github.com:daveyarwood/riffmuse.git
+    cd riffmuse
+    boot build install
+    chmod +x build.boot
+    cp build.boot /usr/local/bin/riffmuse
 
 You should now be able to run `riffmuse` from the command line.
 
@@ -81,6 +75,6 @@ You should now be able to run `riffmuse` from the command line.
 
 ## License
 
-Copyright © 2014 Dave Yarwood
+Copyright © 2014-2015 Dave Yarwood
 
 Distributed under the Eclipse Public License version 1.0
