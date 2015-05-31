@@ -7,14 +7,15 @@
                  [adzerk/boot-test     "1.0.4" :scope "test"]
                  [pandeiro/boot-http   "0.6.2"]
                  [instaparse           "1.3.6"]
-                 [trptcolin/versioneer "0.1.1"]
+                 [trptcolin/versioneer "0.2.0"]
                  [compojure            "1.3.3"]
                  [ring/ring-core       "1.3.2" :scope "test"]
                  [clj-http             "1.1.0"]])
 
 (require '[adzerk.bootlaces   :refer :all]
          '[adzerk.boot-test   :refer :all]
-         '[pandeiro.boot-http :refer :all])
+         '[pandeiro.boot-http :refer :all]
+         '[riffmuse.core])
 
 (def +version+ "1.0.0")
 (bootlaces! +version+)
@@ -44,5 +45,5 @@
   (comp (aot) (pom) (uber) (jar)))
 
 (defn -main [& args]
-  (require 'riffmuse.core)
-  (apply (resolve 'riffmuse.core/-main) args))
+  (binding [riffmuse.core/*version* +version+] 
+    (apply (resolve 'riffmuse.core/-main) args)))

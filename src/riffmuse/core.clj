@@ -1,16 +1,25 @@
 (ns riffmuse.core
   (:require [trptcolin.versioneer.core :refer (get-version)]
-            [clojure.string :as str]
-            [riffmuse.parser :refer (parse-scale)]
-            [riffmuse.scales :refer (scale-name notes)]
-            [riffmuse.riff :refer (generate-riff)]
-            [riffmuse.ascii :as ascii])
+            [clojure.string            :as    str]
+            [riffmuse.parser           :refer (parse-scale)]
+            [riffmuse.scales           :refer (scale-name notes)]
+            [riffmuse.riff             :refer (generate-riff)]
+            [riffmuse.ascii            :as    ascii])
   (:gen-class))
 
-(def ^:private current-version (get-version "riffmuse" "riffmuse"))
+(declare ^:dynamic *version*)
 
-(def ^:private header
-  (let [ver-string  (str "Riffmuse v" current-version)
+(defn check-version!
+  "Hack to enable reading the version number from build.boot, both when 
+   executing build.boot as a script and when running the jar file. Using
+   versioneer to read the version number when running the jar file."
+  []
+  (when-not (bound? #'*version*)
+    (alter-var-root #'*version* 
+                    (constantly (get-version "riffmuse" "riffmuse")))))
+
+(defn header [version]
+  (let [ver-string  (str "Riffmuse v" version)
         dashes      (apply str (repeat (count ver-string) \-))]
     (str \newline ver-string \newline dashes \newline)))
 
@@ -80,15 +89,17 @@ Running 'riffmuse help' or 'riffmuse h' will display this help text.
    If no arguments are given, displays the help text."
   ([] (-main "help"))
   ([& args]
+    (check-version!)
     (let [args-string (str/join \space args)]
       (cond
-        (re-find #"(?i)help|^h" args-string)       (println (str header help))
+        (re-find #"(?i)help|^h" args-string)       (println (str (header *version*) 
+                                                                 help))
         (re-find #"(?i)rand(om)?|^r$" args-string) (-main (rand-nth scale-choices))
         (re-find #"(?i)version|^v" args-string)    (println (str "Riffmuse v"
-                                                                 current-version))
+                                                                 *version*))
         :else (try
                 (let [riff-output (riff-output args-string)]
-                  (println header)
+                  (println (header *version*))
                   (println riff-output))
                 (catch IllegalArgumentException e
                   (println invalid-scale)))))))
