@@ -2,18 +2,23 @@
 
 (set-env!
  :source-paths #{"src" "test"}
- :dependencies '[[org.clojure/clojure  "1.6.0"]
-                 [adzerk/bootlaces     "0.1.11" :scope "test"]
-                 [adzerk/boot-test     "1.0.4" :scope "test"]
-                 [pandeiro/boot-http   "0.6.2"]
-                 [instaparse           "1.3.6"]
-                 [trptcolin/versioneer "0.2.0"]
-                 [compojure            "1.3.3"]
-                 [ring/ring-core       "1.3.2" :scope "test"]
-                 [clj-http             "1.1.0"]])
+ :dependencies '[[org.clojure/clojure       "1.6.0"]
+                 [adzerk/bootlaces          "0.1.11" :scope "test"]
+                 [adzerk/boot-test          "1.0.4"  :scope "test"]
+                 [adzerk/boot-reload        "0.2.6"]
+                 [org.clojure/clojurescript "0.0-3269"]
+                 [adzerk/boot-cljs          "0.0-3269-2"]
+                 [pandeiro/boot-http        "0.6.2"]
+                 [instaparse                "1.3.6"]
+                 [trptcolin/versioneer      "0.2.0"]
+                 [compojure                 "1.3.3"]
+                 [ring/ring-core            "1.3.2"  :scope "test"]
+                 [clj-http                  "1.1.0"]])
 
 (require '[adzerk.bootlaces   :refer :all]
          '[adzerk.boot-test   :refer :all]
+         '[adzerk.boot-cljs   :refer [cljs]]
+         '[adzerk.boot-reload :refer [reload]]
          '[pandeiro.boot-http :refer :all]
          '[riffmuse.core])
 
@@ -32,9 +37,14 @@
   jar {:main 'riffmuse.core})
 
 (deftask dev
-  "Serve the web interface and dev REPL locally."
+  "Serve the web interface and dev REPL locally.
+   Reload on changes."
   []
-  (comp (serve :handler 'riffmuse.web/app :reload true)
+  (comp (watch)
+        (speak)
+        (reload)
+        (cljs :optimizations :none :source-map true)
+        (serve :handler 'riffmuse.web/app)
         (repl :server true :port 4005)
         (wait)))
 
