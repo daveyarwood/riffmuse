@@ -23,8 +23,8 @@
         dashes      (apply str (repeat (count ver-string) \-))]
     (str \newline ver-string \newline dashes \newline)))
 
-(def help "
-riffmuse is a command-line tool that algorithmically generates notes within a given scale, hopefully inspiring you to create a riff using those notes.
+(def help 
+  "riffmuse is a command-line tool that algorithmically generates notes within a given scale, hopefully inspiring you to create a riff using those notes.
 
 Simply pass the scale you'd like your riff in as command-line arguments. Input is not case-sensitive, and can be abbreviated in a variety of ways.
 
@@ -93,8 +93,10 @@ Running 'riffmuse help' or 'riffmuse h' will display this help text.
     (let [args-string (str/join \space args)]
       (cond
         (empty? (.trim args-string))               (-main "help")
-        (re-find #"(?i)help|^h" args-string)       (println (str (header *version*) 
-                                                                 help))
+        (re-find #"(?i)help|^h" args-string)       (println 
+                                                     (str (header *version*) 
+                                                          \newline
+                                                          help))
         (re-find #"(?i)rand(om)?|^r$" args-string) (-main (rand-nth scale-choices))
         (re-find #"(?i)version|^v" args-string)    (println (str "Riffmuse v"
                                                                  *version*))

@@ -1,18 +1,18 @@
 (ns riffmuse.web
   (:require cljsjs.jquery)) 
 
-(defn get-output [scale-input]
+(defn get-output [input]
   (doto (.post js/jQuery 
                "/riff" 
-               (str "scale=" scale-input))
+               (str "scale=" input))
     (.success #(doto (js/jQuery ".output code")
-                 (.html %)))))
+                 (.html (str "> riffmuse " input "\n\n" %))))))
 
 (js/jQuery 
   (fn []
     (get-output "help")
     (doto (js/jQuery ".controls input[type=submit]")
       (.click (fn [e] 
-                (let [scale-input (.val (js/jQuery "#scale"))]
+                (let [input (.val (js/jQuery "#scale"))]
                   (.preventDefault e)
-                  (get-output scale-input)))))))
+                  (get-output input)))))))
