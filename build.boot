@@ -14,7 +14,8 @@
                  [trptcolin/versioneer      "0.2.0"]
                  [compojure                 "1.3.4"]
                  [ring/ring-core            "1.3.2"  :scope "test"]
-                 [clj-http                  "1.1.2"]])
+                 [clj-http                  "1.1.2"]
+                 [cljsjs/jquery             "2.1.4-0"]])
 
 (require '[adzerk.bootlaces   :refer :all]
          '[adzerk.boot-test   :refer :all]
