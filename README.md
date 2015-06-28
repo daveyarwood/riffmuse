@@ -43,15 +43,7 @@ Riffmuse is intended to be installed as an executable file in the user's `$PATH`
 
 The `build.boot` file in this directory is actually an executable Clojure script, so if you want, you can run it directly, e.g. `./build.boot f sharp blues`.
 
-You can also run Riffmuse from any directory by copying `build.boot` into your `/usr/local/bin` or any other directory on your `$PATH`, and renaming it `riffmuse`. The script makes use of the source files in this repo, so you'll also need to install the jar file to your local Maven repo. You can do all of that like this:
-
-    git clone git@github.com:daveyarwood/riffmuse.git
-    cd riffmuse
-    boot build install
-    chmod +x build.boot
-    cp build.boot /usr/local/bin/riffmuse
-
-You should now be able to run `riffmuse` from the command line.
+Ideally, one should be able to run `riffmuse` from the command line, like this:
 
     > riffmuse e blues
 
@@ -72,6 +64,12 @@ You should now be able to run `riffmuse` from the command line.
         1               2               3               4
     A|--5-----------7-------5-------7----------10-------5-------------
     E|-------------------------10-------------------------------3---3-
+
+I'm still working out the finer details of how to do that. For the moment, you can always run `build.boot` with arguments, as I noted above, OR, check this out:
+
+### Web UI
+
+Running `boot dev` will serve a simple web app exposing Riffmuse as an endpoint -- simply enter a scale (or `help`, `random`, etc. -- any CLI arguments that Riffmuse accepts) and you will see the CLI output.
 
 ## License
 
