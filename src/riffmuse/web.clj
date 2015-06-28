@@ -12,6 +12,8 @@
         (content-type "text/html")))
   (POST "/riff" {:keys [params] :as request}
     (cond
+      (empty? (.trim (:scale params)))
+        help
       (re-find #"(?i)help|^h" (:scale params))
         help
       (re-find #"(?i)rand(om)?|^r$" (:scale params))

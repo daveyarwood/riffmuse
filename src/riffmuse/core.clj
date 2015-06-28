@@ -92,6 +92,7 @@ Running 'riffmuse help' or 'riffmuse h' will display this help text.
     (check-version!)
     (let [args-string (str/join \space args)]
       (cond
+        (empty? (.trim args-string))               (-main "help")
         (re-find #"(?i)help|^h" args-string)       (println (str (header *version*) 
                                                                  help))
         (re-find #"(?i)rand(om)?|^r$" args-string) (-main (rand-nth scale-choices))
