@@ -2,13 +2,13 @@
   (:require [compojure.core :refer :all]
             [compojure.handler :as handler]
             [compojure.route :as route]
-            [ring.util.response :refer (file-response content-type)]
+            [ring.util.response :refer (resource-response content-type)]
             [riffmuse.core :refer (riff-output invalid-scale
                                    help scale-choices)]))
 
 (defroutes app-routes
   (GET "/" []
-    (-> (file-response "index.html" {:root "public"})
+    (-> (resource-response "index.html" {:root "public"})
         (content-type "text/html")))
   (POST "/riff" {:keys [params] :as request}
     (cond
@@ -20,6 +20,7 @@
         (try
           (riff-output (:scale params))
           (catch IllegalArgumentException e invalid-scale))))
+  (route/resources "/")
   (route/not-found "404 - page not found"))
 
 (def app

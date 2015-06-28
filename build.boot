@@ -2,18 +2,19 @@
 
 (set-env!
  :source-paths #{"src" "test"}
- :dependencies '[[org.clojure/clojure       "1.6.0"]
+ :resource-paths #{"resources"}
+ :dependencies '[[org.clojure/clojure       "1.7.0-RC1"]
                  [adzerk/bootlaces          "0.1.11" :scope "test"]
                  [adzerk/boot-test          "1.0.4"  :scope "test"]
-                 [adzerk/boot-reload        "0.2.6"]
-                 [org.clojure/clojurescript "0.0-3269"]
-                 [adzerk/boot-cljs          "0.0-3269-2"]
+                 [adzerk/boot-reload        "0.3.1"]
+                 [org.clojure/clojurescript "0.0-3308"]
+                 [adzerk/boot-cljs          "0.0-3308-0"]
                  [pandeiro/boot-http        "0.6.2"]
-                 [instaparse                "1.3.6"]
+                 [instaparse                "1.4.1"]
                  [trptcolin/versioneer      "0.2.0"]
-                 [compojure                 "1.3.3"]
+                 [compojure                 "1.3.4"]
                  [ring/ring-core            "1.3.2"  :scope "test"]
-                 [clj-http                  "1.1.0"]])
+                 [clj-http                  "1.1.2"]])
 
 (require '[adzerk.bootlaces   :refer :all]
          '[adzerk.boot-test   :refer :all]
@@ -42,11 +43,13 @@
   []
   (comp (watch)
         (speak)
-        (reload)
-        (cljs :optimizations :none :source-map true)
-        (serve :handler 'riffmuse.web/app)
+        (cljs :optimizations :none 
+              :source-map true
+              :compiler-options {:output-to  "public/main.js"
+                                 :asset-path "out"})
+        (reload :asset-path "public")
         (repl :server true :port 4005)
-        (wait)))
+        (serve :handler 'riffmuse.web/app)))
 
 (deftask build
   "Builds uberjar.
