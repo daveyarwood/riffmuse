@@ -44,7 +44,7 @@
   []
   (comp (watch)
         (speak)
-        (cljs :optimizations :none 
+        (cljs :optimizations :none
               :source-map true
               :compiler-options {:output-to  "public/main.js"
                                  :asset-path "out"})
@@ -59,5 +59,5 @@
   (comp (aot) (pom) (uber) (jar)))
 
 (defn -main [& args]
-  (binding [riffmuse.core/*version* +version+] 
+  (binding [riffmuse.core/*version* +version+]
     (apply (resolve 'riffmuse.core/-main) args)))
