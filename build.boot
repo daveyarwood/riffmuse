@@ -3,18 +3,18 @@
 (set-env!
  :source-paths #{"src" "test"}
  :resource-paths #{"resources"}
- :dependencies '[[org.clojure/clojure       "1.7.0-RC1"]
-                 [adzerk/bootlaces          "0.1.11" :scope "test"]
-                 [adzerk/boot-test          "1.0.4"  :scope "test"]
-                 [adzerk/boot-reload        "0.3.1"]
+ :dependencies '[[org.clojure/clojure       "1.7.0"]
+                 [adzerk/bootlaces          "0.1.13" :scope "test"]
+                 [adzerk/boot-test          "1.1.0"  :scope "test"]
+                 [adzerk/boot-reload        "0.4.2"]
                  [org.clojure/clojurescript "0.0-3308"]
                  [adzerk/boot-cljs          "0.0-3308-0"]
-                 [pandeiro/boot-http        "0.6.2"]
+                 [pandeiro/boot-http        "0.7.0"]
                  [instaparse                "1.4.1"]
                  [trptcolin/versioneer      "0.2.0"]
-                 [compojure                 "1.3.4"]
-                 [ring/ring-core            "1.3.2"  :scope "test"]
-                 [clj-http                  "1.1.2"]
+                 [compojure                 "1.4.0"]
+                 [ring/ring-core            "1.4.0"  :scope "test"]
+                 [clj-http                  "2.0.0"]
                  [cljsjs/jquery             "2.1.4-0"]])
 
 (require '[adzerk.bootlaces   :refer :all]
