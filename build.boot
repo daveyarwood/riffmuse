@@ -12,7 +12,6 @@
                    [adzerk/boot-cljs          "0.0-3308-0"]
                    [pandeiro/boot-http        "0.7.0"]
                    [instaparse                "1.4.1"]
-                   [trptcolin/versioneer      "0.2.0"]
                    [compojure                 "1.4.0"]
                    [ring/ring-core            "1.4.0"  :scope "test"]
                    [clj-http                  "2.0.0"]
@@ -24,15 +23,15 @@
          '[adzerk.boot-cljs    :refer (cljs)]
          '[adzerk.boot-reload  :refer (reload)]
          '[pandeiro.boot-http  :refer :all]
-         '[riffmuse.core])
+         '[riffmuse.core]
+         '[riffmuse.version    :refer (-version-)])
 
-(def +version+ "1.0.0")
-(bootlaces! +version+)
+(bootlaces! -version-)
 
 (task-options!
   aot    {:namespace '#{riffmuse.core}}
   pom    {:project 'riffmuse
-          :version +version+
+          :version -version-
           :description "A simple CLI tool to inspire sweet riffs"
           :url "https://github.com/daveyarwood/riffmuse"
           :scm {:url "https://github.com/daveyarwood/riffmuse"}
@@ -67,5 +66,4 @@
     (bin :output-dir "bin")))
 
 (defn -main [& args]
-  (binding [riffmuse.core/*version* +version+]
-    (apply (resolve 'riffmuse.core/-main) args)))
+  (apply (resolve 'riffmuse.core/-main) args))

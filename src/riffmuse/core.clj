@@ -1,29 +1,18 @@
 (ns riffmuse.core
-  (:require [trptcolin.versioneer.core :refer (get-version)]
-            [clojure.string            :as    str]
-            [riffmuse.parser           :refer (parse-scale)]
-            [riffmuse.scales           :refer (scale-name notes)]
-            [riffmuse.riff             :refer (generate-riff)]
-            [riffmuse.ascii            :as    ascii])
+  (:require [clojure.string   :as    str]
+            [riffmuse.parser  :refer (parse-scale)]
+            [riffmuse.scales  :refer (scale-name notes)]
+            [riffmuse.riff    :refer (generate-riff)]
+            [riffmuse.ascii   :as    ascii]
+            [riffmuse.version :refer (-version-)])
   (:gen-class))
 
-(declare ^:dynamic *version*)
-
-(defn check-version!
-  "Hack to enable reading the version number from build.boot, both when 
-   executing build.boot as a script and when running the jar file. Using
-   versioneer to read the version number when running the jar file."
-  []
-  (when-not (bound? #'*version*)
-    (alter-var-root #'*version* 
-                    (constantly (get-version "riffmuse" "riffmuse")))))
-
-(defn header [version]
-  (let [ver-string  (str "Riffmuse v" version)
+(def header
+  (let [ver-string  (str "Riffmuse v" -version-)
         dashes      (apply str (repeat (count ver-string) \-))]
     (str \newline ver-string \newline dashes \newline)))
 
-(def help 
+(def help
   "riffmuse is a command-line tool that algorithmically generates notes within a given scale, hopefully inspiring you to create a riff using those notes.
 
 Simply pass the scale you'd like your riff in as command-line arguments. Input is not case-sensitive, and can be abbreviated in a variety of ways.
@@ -89,20 +78,17 @@ Running 'riffmuse help' or 'riffmuse h' will display this help text.
    If no arguments are given, displays the help text."
   ([] (-main "help"))
   ([& args]
-    (check-version!)
     (let [args-string (str/join \space args)]
       (cond
         (empty? (.trim args-string))               (-main "help")
-        (re-find #"(?i)help|^h" args-string)       (println 
-                                                     (str (header *version*) 
-                                                          \newline
-                                                          help))
+        (re-find #"(?i)help|^h" args-string)       (println
+                                                     (str header \newline help))
         (re-find #"(?i)rand(om)?|^r$" args-string) (-main (rand-nth scale-choices))
-        (re-find #"(?i)version|^v" args-string)    (println (str "Riffmuse v"
-                                                                 *version*))
+        (re-find #"(?i)version|^v" args-string)    (println
+                                                     (str "Riffmuse v" -version-))
         :else (try
                 (let [riff-output (riff-output args-string)]
-                  (println (header *version*))
+                  (println header)
                   (println riff-output))
                 (catch IllegalArgumentException e
                   (println invalid-scale)))))))
