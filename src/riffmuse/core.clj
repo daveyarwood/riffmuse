@@ -91,4 +91,5 @@ Running 'riffmuse help' or 'riffmuse h' will display this help text.
                   (println header)
                   (println riff-output))
                 (catch IllegalArgumentException e
-                  (println invalid-scale)))))))
+                  (println invalid-scale)))))
+    (System/exit 0)))
