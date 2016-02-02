@@ -37,28 +37,21 @@ Running `riffmuse help` or `riffmuse h` will display these examples.
 
 Riffmuse is intended to be installed as an executable file in the user's `$PATH` and run from the command line.
 
-*TODO: release executables, explain how to install on `$PATH`*
+To do that, follow these steps:
 
-## Development
+1) Download the `riffmuse` file from the [latest release](https://github.com/daveyarwood/riffmuse/releases/latest).
 
-### Prerequisites
+2) Mark the file as executable.
 
-* [Boot](http://www.boot-clj.com)
+    $ chmod +x riffmuse
 
-The `build.boot` file in this directory is actually an executable Clojure script, so if you want, you can run it directly, e.g. `./build.boot f sharp blues`.
+3) Move it to any directory on your `$PATH`, e.g. `/usr/local/bin`.
 
-Or, you can generate an executable and move it to a directory on your `$PATH`:
+    $ mv riffmuse /usr/local/bin
 
-```
-git clone git@github.com:daveyarwood/riffmuse.git
-cd riffmuse
-boot build
-mv bin/riffmuse /usr/local/bin
-```
+4) You can now run `riffmuse` from the command line in any directory.
 
-After doing this, you'll be able to run `riffmuse` from the command line, like this:
-
-    > riffmuse e blues
+    $ riffmuse e blues
 
     Riffmuse v1.0.0
     ---------------
@@ -77,6 +70,25 @@ After doing this, you'll be able to run `riffmuse` from the command line, like t
         1               2               3               4
     A|--5-----------7-------5-------7----------10-------5-------------
     E|-------------------------10-------------------------------3---3-
+
+## Development
+
+### Prerequisites
+
+* [Boot](http://www.boot-clj.com)
+
+The `build.boot` file in this directory is actually an executable Clojure script, so if you want, you can run it directly, e.g. `./build.boot f sharp blues`.
+
+Or, you can generate an executable and move it to a directory on your `$PATH`:
+
+```
+git clone git@github.com:daveyarwood/riffmuse.git
+cd riffmuse
+boot build
+mv bin/riffmuse /usr/local/bin
+```
+
+After doing this, you'll be able to run `riffmuse` from the command line.
 
 ### Web UI
 
