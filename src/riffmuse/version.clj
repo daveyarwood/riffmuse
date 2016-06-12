@@ -1,3 +1,3 @@
 (ns riffmuse.version)
 
-(def ^:const -version- "1.0.0")
+(def ^:const -version- "1.0.1")
